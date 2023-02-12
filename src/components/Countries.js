@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Card from "./Card";
 
 const Countries = () => {
   const [data, setData] = useState([]);
+  const [rangeValue, setRangeValue] = useState(250);
 
   useEffect(() => {
     axios
@@ -13,10 +15,18 @@ const Countries = () => {
 
   return (
     <div className="countries">
-      <h2>Countries</h2>
+      <ul className="radio-container">
+        <input
+          type="range"
+          min="1"
+          max="250"
+          defaultValue={rangeValue}
+          onChange={(e) => setRangeValue(e.target.value)}
+        />
+      </ul>
       <ul>
-        {data.map((country, index) => (
-          <li key={index}>{country.translations.fra.common}</li>
+        {data.slice(0, rangeValue).map((country) => (
+          <Card key={country.cca2} country={country} />
         ))}
       </ul>
     </div>
